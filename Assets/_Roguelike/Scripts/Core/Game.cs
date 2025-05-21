@@ -6,6 +6,7 @@ namespace Roguelike
     public class Game : MonoBehaviour
     {
         public Canvas canvas;
+        public Settings settings;
 
         public IInjectContainer injectContainer;
 
@@ -16,8 +17,15 @@ namespace Roguelike
             var container = new AntInjectContainer();
             AntInject.SetInjector(container);
             injectContainer = container;
+            settings.Init();
 
             injectContainer.RegisterSingleton(this);
+
+            var inputReader = FindAnyObjectByType<InputReader>();
+            if (inputReader != null)
+            {
+                injectContainer.RegisterSingleton(inputReader);
+            }
 
             menu = new Menu();
 
