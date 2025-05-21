@@ -8,9 +8,9 @@ namespace Roguelike
         public string mobId;
         public string mobGroupId;
         public float movespeed;
-        public List<Rigidbody2D> mobs = new List<Rigidbody2D>();
+        public List<Transform> mobs = new List<Transform>();
 
-        public MobGroup(string mobId, string mobGroupId, float movespeed, List<Rigidbody2D> mobs)
+        public MobGroup(string mobId, string mobGroupId, float movespeed, List<Transform> mobs)
         {
             this.mobId = mobId;
             this.mobGroupId = mobGroupId;
