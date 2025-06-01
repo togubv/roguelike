@@ -1,3 +1,4 @@
+using System.Collections;
 using Anthill.Inject;
 using UnityEngine;
 
@@ -23,7 +24,10 @@ namespace Roguelike
         {
             if (_inputReader.axisInput != Vector2.zero)
             {
-                characterTrans.Translate(_inputReader.axisInput * 1f * Time.deltaTime);
+                float angle = Mathf.Atan2(_inputReader.axisInput.y, _inputReader.axisInput.x) * Mathf.Rad2Deg - 90;
+                characterTrans.rotation = Quaternion.Euler(0, 0, angle);
+
+                characterTrans.Translate(Vector2.up * 1f * Time.deltaTime);                           
             }
         }
     }

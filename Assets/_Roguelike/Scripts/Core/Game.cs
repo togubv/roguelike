@@ -27,11 +27,19 @@ namespace Roguelike
                 injectContainer.RegisterSingleton(inputReader);
             }
 
+            var levelManager = FindAnyObjectByType<LevelManager>();
+            if (levelManager != null)
+            {
+                injectContainer.RegisterSingleton(levelManager);
+            }
+
             menu = new Menu();
 
             menu.Create<InGameController>();
 
             menu.Init();
+
+            menu.Get<InGameController>().Show();
         }
     }
 }

@@ -15,9 +15,7 @@ namespace Roguelike
 
         private void Awake()
         {
-            _maxHealth = baseHealthValue;
-            _currentHealth = _maxHealth;
-            _isAlive = true;
+            Init();
         }
 
         public bool IsAlive()
@@ -27,7 +25,22 @@ namespace Roguelike
 
         public virtual bool TakeDamage(int damageValue)
         {
+            _currentHealth -= damageValue;
+
+            if (_currentHealth <= 0)
+            {
+                Death();
+                return true;
+            }
+
             return false;
+        }
+
+        protected virtual void Init()
+        {
+            _maxHealth = baseHealthValue;
+            _currentHealth = _maxHealth;
+            _isAlive = true;
         }
 
         protected virtual void Death()

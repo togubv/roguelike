@@ -2,7 +2,8 @@ namespace Roguelike
 {
     public interface IController
     {
-        void Create() { }
-        void Init() { }
+        void Create();
+        void Init();
+        void Show();
     }
 }
