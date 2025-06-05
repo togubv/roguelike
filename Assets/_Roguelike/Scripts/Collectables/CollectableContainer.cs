@@ -2,11 +2,10 @@ using UnityEngine;
 
 namespace Roguelike
 {
-    public class HealthMob : Health, IPoolable
+    public class CollectableContainer : MonoBehaviour, IPoolable, ICollectable
     {
         public string GetObjectId { get { return _objectId; } }
-
-        public string expCollectable;
+        public Transform trans { get { return transform; } }
 
         private MobFactory _factory;
         private string _objectId;
@@ -19,19 +18,12 @@ namespace Roguelike
 
         public void Refresh()
         {
-            Init();
+
         }
 
         public void Despawn()
         {
-            _factory.DespawnMob(this);
-        }
 
-        protected override void Death()
-        {
-            base.Death();
-
-            Despawn();
         }
     }
 }

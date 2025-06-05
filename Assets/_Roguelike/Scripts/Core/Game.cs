@@ -33,6 +33,12 @@ namespace Roguelike
                 injectContainer.RegisterSingleton(levelManager);
             }
 
+            var mobFactory = FindAnyObjectByType<MobFactory>();
+            if (mobFactory != null)
+            {
+                injectContainer.RegisterSingleton(mobFactory);
+            }
+
             menu = new Menu();
 
             menu.Create<InGameController>();

@@ -9,9 +9,10 @@ namespace Roguelike
         public float magnetizeSpeed = 1f;
         public float collectRange = 0.5f;
 
-        public List<Transform> _collects = new List<Transform>();
+        public List<CollectableContainer> _collects = new List<CollectableContainer>();
 
         [Inject] private LevelManager _levelManager;
+        [Inject] private MobFactory _mobFactory;
 
         private void Awake()
         {
@@ -20,9 +21,9 @@ namespace Roguelike
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.TryGetComponent<ICollectable>(out ICollectable iCollectable))
+            if (collision.TryGetComponent<CollectableContainer>(out CollectableContainer collectableContainer))
             {
-                _collects.Add(iCollectable.trans);
+                _collects.Add(collectableContainer);
             }
         }
 
@@ -40,20 +41,20 @@ namespace Roguelike
 
             for (int i = _collects.Count - 1; i >= 0; i--)
             {
-                _collects[i].position = Vector2.MoveTowards(_collects[i].position, transform.position, magnetizeSpeed * Time.deltaTime);
+                _collects[i].trans.position = Vector2.MoveTowards(_collects[i].trans.position, transform.position, magnetizeSpeed * Time.deltaTime);
 
-                if (Vector2.Distance(transform.position, _collects[i].position) <= collectRange)
+                if (Vector2.Distance(transform.position, _collects[i].trans.position) <= collectRange)
                 {
                     Collect(_collects[i]);
                 }
             }
         }
 
-        private void Collect(Transform collectable)
+        private void Collect(CollectableContainer collectable)
         {
             _collects.Remove(collectable);
-            collectable.gameObject.SetActive(false);
             _levelManager.IncreasePlayerExperience(1);
+            _mobFactory.DespawnCollectable(collectable);
         }
     }
 }

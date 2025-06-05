@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Roguelike
 {
-    public class CollectableData : MonoBehaviour, ICollectable
+    public class CollectableObjectData : MonoBehaviour, ICollectable
     {
         public Transform trans { get { return transform; } }
     }
