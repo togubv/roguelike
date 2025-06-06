@@ -22,7 +22,6 @@ namespace Roguelike
         public List<LevelMobData> mobs = new List<LevelMobData>();
 
         public List<ObjectPoolData> _objectsPool = new List<ObjectPoolData>();
-        public List<ObjectPoolData> _collectablesPool = new List<ObjectPoolData>();
 
         // DEBUG
 
@@ -62,15 +61,15 @@ namespace Roguelike
 
         public void DespawnCollectable(CollectableContainer collectable)
         {
-            if (HasPoolableObject(collectable.GetObjectId))
+            if (HasObjectPool(collectable.GetObjectId))
             {
-                var objectPool = GetCollectablesPool(collectable.GetObjectId);
+                var objectPool = GetObjectPool(collectable.GetObjectId);
                 objectPool.go.Add(collectable.gameObject);
             }
             else
             {
                 var newObjectPool = new ObjectPoolData(collectable.GetObjectId, collectable.gameObject);
-                _collectablesPool.Add(newObjectPool);
+                _objectsPool.Add(newObjectPool);
             }
 
             collectable.gameObject.SetActive(false);
@@ -83,22 +82,6 @@ namespace Roguelike
                 if (_objectsPool[i].objectId == id)
                 {
                     if (_objectsPool[i].go.Count > 0)
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        private bool HasPoolableObject(string id)
-        {
-            for (int i = 0; i < _collectablesPool.Count; i++)
-            {
-                if (_collectablesPool[i].objectId == id)
-                {
-                    if (_collectablesPool[i].go.Count > 0)
                     {
                         return true;
                     }
@@ -128,19 +111,6 @@ namespace Roguelike
                 if (_objectsPool[i].objectId == id)
                 {
                     return _objectsPool[i];
-                }
-            }
-
-            return null;
-        }
-
-        private ObjectPoolData GetCollectablesPool(string id)
-        {
-            for (int i = 0; i < _collectablesPool.Count; i++)
-            {
-                if (_collectablesPool[i].objectId == id)
-                {
-                    return _collectablesPool[i];
                 }
             }
 
@@ -240,9 +210,9 @@ namespace Roguelike
             var objectData = Settings.Get<PoolableObjects>().GetPoolableObjectData(collectableId);
             GameObject objectPrefab = null;
 
-            if (HasPoolableObject(objectData.objectId))
+            if (HasObjectInPool(objectData.objectId))
             {
-                var objectPool = GetCollectablesPool(collectableId).go;
+                var objectPool = GetObjectPool(collectableId).go;
                 objectPrefab = objectPool[objectPool.Count - 1];
                 objectPool.RemoveAt(objectPool.Count - 1);
                 objectPrefab.transform.position = spawnPosition;
