@@ -39,13 +39,21 @@ namespace Roguelike
                 injectContainer.RegisterSingleton(mobFactory);
             }
 
+            var bonusManager = FindAnyObjectByType<BonusManager>();
+            if (bonusManager != null)
+            {
+                injectContainer.RegisterSingleton(bonusManager);
+            }
+
             menu = new Menu();
 
             menu.Create<InGameController>();
+            menu.Create<BonusController>();
 
             menu.Init();
 
             menu.Get<InGameController>().Show();
+            menu.Get<BonusController>().Show();
         }
     }
 }

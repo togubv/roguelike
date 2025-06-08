@@ -8,6 +8,13 @@ namespace Roguelike
         public Animation skillAnimation;
         public float cooldown = 1f;
 
+        protected int _level = 1;
+
+        public void IncreaseLevel()
+        {
+            _level += 1;
+        }
+
         protected void OnEnable()
         {
             StartCoroutine(CastingSkill());

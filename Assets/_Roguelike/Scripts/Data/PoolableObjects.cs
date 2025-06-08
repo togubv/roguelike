@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Roguelike
@@ -17,7 +18,7 @@ namespace Roguelike
                 }
             }
 
-            return null;
+            throw new NullReferenceException($"Not found PoolableObjectData with id {id} in PoolableObjects");
         }
     }
 }
