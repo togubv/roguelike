@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 5011549301104830919}
   - component: {fileID: 6239757771842877768}
   m_Layer: 0
-  m_Name: Skill
+  m_Name: SkillGetsuga
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -184,8 +184,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillAnimation: {fileID: 5194417147725393434}
   cooldown: 1
+  damageValues: 0100000002000000030000000400000005000000
   damagePoint: {fileID: 1116265564742271262}
-  damageValue: 1
   radius: 1.5
   layerMask:
     serializedVersion: 2

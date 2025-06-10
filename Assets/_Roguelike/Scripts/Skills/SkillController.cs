@@ -7,12 +7,24 @@ namespace Roguelike
     {
         public Animation skillAnimation;
         public float cooldown = 1f;
+        public int[] damageValues;
 
         protected int _level = 1;
+        protected int _damageValue;
 
         public void IncreaseLevel()
         {
             _level += 1;
+
+            if (damageValues.Length >= _level)
+            {
+                _damageValue = damageValues[_level - 1];
+            }
+        }
+
+        protected void Start()
+        {
+            _damageValue = damageValues[0];
         }
 
         protected void OnEnable()
@@ -29,9 +41,9 @@ namespace Roguelike
         {
             while (true)
             {
-                CastSkill();
-
                 yield return new WaitForSeconds(cooldown);
+
+                CastSkill();
             }
         }
     }

@@ -11,10 +11,10 @@ namespace Roguelike
         public TMP_Text descriptionText;
         public Button button;
 
-        public void SetInfo(Sprite sprite, string title, string description)
+        public void SetInfo(Sprite sprite, string title, string description, int level = 1)
         {
             portraitImage.sprite = sprite;
-            titleText.text = title;
+            titleText.text = $"{title} ({level})";
             descriptionText.text = description;
         }
     }

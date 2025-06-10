@@ -12,5 +12,8 @@ namespace Roguelike
         public Sprite portrait;
         public int maxLevel = 1;
         public GameObject skillPrefab;
+
+        [HideInInspector]
+        public int level;
     }
 }

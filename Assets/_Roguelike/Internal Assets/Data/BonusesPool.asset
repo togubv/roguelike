@@ -19,3 +19,11 @@ MonoBehaviour:
     portrait: {fileID: 0}
     maxLevel: 5
     skillPrefab: {fileID: 8274252219549204793, guid: 243319b42ceee0340b4497f2158b21dd, type: 3}
+    level: 5
+  - id: BonusFireball
+    title: Fireball
+    description: Katon
+    portrait: {fileID: 0}
+    maxLevel: 3
+    skillPrefab: {fileID: 4081332363166214420, guid: 0959d28906632304ca474e468d801eac, type: 3}
+    level: 5

@@ -33,7 +33,7 @@ namespace Roguelike
             for (int i = 0; i < bonuses.Length; i++)
             {
                 bonusContainers[i].gameObject.SetActive(true);
-                bonusContainers[i].SetInfo(bonuses[i].portrait, bonuses[i].title, bonuses[i].description);
+                bonusContainers[i].SetInfo(bonuses[i].portrait, bonuses[i].title, bonuses[i].description, bonuses[i].level);
             }
         }
 

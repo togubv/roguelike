@@ -15,3 +15,5 @@ MonoBehaviour:
   collectables:
   - objectId: CollectableExp1
     prefab: {fileID: 3048357389405968857, guid: ea9283c24831f1d45a864fd94fba45cf, type: 3}
+  - objectId: ProjectileDirect1
+    prefab: {fileID: 2469006084974078151, guid: 99dfab442903cfb418dc5450ea95ecd7, type: 3}

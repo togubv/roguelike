@@ -26,6 +26,7 @@ namespace Roguelike
             {
                 bonusLevel = 1;
                 var spawnedSkill = Instantiate(_bonusesDraft[bonusIndex].skillPrefab, skillsParent);
+                spawnedSkill.transform.rotation = skillsParent.rotation;
                 _activeBonuses.Add(new PlayerBonusData(_bonusesDraft[bonusIndex].id, bonusLevel, spawnedSkill));
             }
             else
@@ -109,6 +110,7 @@ namespace Roguelike
                 }
 
                 int randomIndex = Random.Range(0, availableBonuses.Count);
+                availableBonuses[randomIndex].level = GetPlayerBonusLevel(availableBonuses[randomIndex].id) + 1;
                 _bonusesDraft.Add(availableBonuses[randomIndex]);
                 availableBonuses.RemoveAt(randomIndex);
             }
@@ -140,6 +142,18 @@ namespace Roguelike
             }
 
             return null;
+        }
+
+        private int GetPlayerBonusLevel(string bonusId)
+        {
+            var bonusData = GetPlayerBonusData(bonusId);
+
+            if (bonusData == null)
+            {
+                return 0;
+            }
+
+            return bonusData.bonusLevel;
         }
     }
 }

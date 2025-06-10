@@ -1,9 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using NUnit.Framework;
 using TMPro;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 
 namespace Roguelike
@@ -18,6 +14,7 @@ namespace Roguelike
         public float pushStrength = 1f;
         public Transform mobsParent;
         public Transform collectablesParent;
+        public Transform projectilesParent;
         public List<MobGroup> mobGroups = new List<MobGroup>();
         public List<LevelMobData> mobs = new List<LevelMobData>();
 
@@ -75,6 +72,47 @@ namespace Roguelike
             collectable.gameObject.SetActive(false);
         }
 
+        public void DespawnProjectile(ProjectileController projectile)
+        {
+            if (HasObjectPool(projectile.GetObjectId))
+            {
+                var objectPool = GetObjectPool(projectile.GetObjectId);
+                objectPool.go.Add(projectile.gameObject);
+            }
+            else
+            {
+                var newObjectPool = new ObjectPoolData(projectile.GetObjectId, projectile.gameObject);
+                _objectsPool.Add(newObjectPool);
+            }
+        }
+
+        public ProjectileController SpawnProjectile(string projectileId, Vector3 spawnPosition)
+        {
+            var objectData = Settings.Get<PoolableObjects>().GetPoolableObjectData(projectileId);
+            GameObject objectPrefab = null;
+
+            if (HasObjectInPool(objectData.objectId))
+            {
+                var objectPool = GetObjectPool(projectileId).go;
+                objectPrefab = objectPool[objectPool.Count - 1];
+                objectPool.RemoveAt(objectPool.Count - 1);
+                objectPrefab.transform.position = spawnPosition;
+                objectPrefab.SetActive(true);
+            }
+            else
+            {
+                objectPrefab = Instantiate(objectData.prefab, spawnPosition, Quaternion.identity, projectilesParent);
+            }
+
+            if (objectPrefab.TryGetComponent<IPoolable>(out IPoolable iPoolable))
+            {
+                iPoolable.Init(this, projectileId);
+                iPoolable.Refresh();
+            }
+
+            return objectPrefab.GetComponent<ProjectileController>();
+        }
+
         private bool HasObjectInPool(string id)
         {
             for (int i = 0; i < _objectsPool.Count; i++)
@@ -119,7 +157,7 @@ namespace Roguelike
 
         private void Start()
         {
-            SpawnMobDebug();
+
         }
 
         private void Update()

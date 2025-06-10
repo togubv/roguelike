@@ -5,7 +5,6 @@ namespace Roguelike
     public class SkillDamageArea : SkillController
     {
         public Transform damagePoint;
-        public int damageValue;
         public float radius;
         public LayerMask layerMask;
 
@@ -19,7 +18,7 @@ namespace Roguelike
             {
                 if (targets[i].TryGetComponent<IDamagable>(out IDamagable iDamagable))
                 {
-                    iDamagable.TakeDamage(damageValue);
+                    iDamagable.TakeDamage(_damageValue);
                 }
             }
         }
