@@ -46,5 +46,17 @@ namespace Roguelike
                 CastSkill();
             }
         }
+
+        protected int GetLevelIndex(int length)
+        {
+            if (length < _level)
+            {
+                return _level;
+            }
+            else
+            {
+                return length;
+            }
+        }
     }
 }

@@ -4,15 +4,15 @@ namespace Roguelike
 {
     public class SkillDamageArea : SkillController
     {
+        public float[] radiuses;
         public Transform damagePoint;
-        public float radius;
         public LayerMask layerMask;
 
         protected override void CastSkill()
         {
             base.CastSkill();
 
-            var targets = Physics2D.OverlapCircleAll(damagePoint.position, radius, layerMask);
+            var targets = Physics2D.OverlapCircleAll(damagePoint.position, radiuses[_level], layerMask);
 
             for (int i = 0; i < targets.Length; i++)
             {

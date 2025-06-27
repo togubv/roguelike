@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dbacae6bc5395f4082ff2a92a60eec0, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
+  playerBaseMovespeed: 3
   baseExperienceRequired: 4
   nextLevelExperienceMultiplier: 0.25

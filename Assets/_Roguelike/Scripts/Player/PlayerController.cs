@@ -1,4 +1,3 @@
-using System.Collections;
 using Anthill.Inject;
 using UnityEngine;
 
@@ -10,9 +9,13 @@ namespace Roguelike
 
         [Inject] private InputReader _inputReader;
 
+        private float _baseMovespeed;
+
         private void Awake()
         {
             this.InjectMono();
+
+            _baseMovespeed = Settings.Get<GameSettings>().playerBaseMovespeed;
         }
 
         private void Update()
@@ -27,7 +30,7 @@ namespace Roguelike
                 float angle = Mathf.Atan2(_inputReader.axisInput.y, _inputReader.axisInput.x) * Mathf.Rad2Deg - 90;
                 characterTrans.rotation = Quaternion.Euler(0, 0, angle);
 
-                characterTrans.Translate(Vector2.up * 1f * Time.deltaTime);                           
+                characterTrans.Translate(Vector2.up * _baseMovespeed * Time.deltaTime);                           
             }
         }
     }

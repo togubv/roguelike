@@ -6,17 +6,12 @@ namespace Roguelike
 {
     public class MobFactory : MonoBehaviour
     {
+        public MobsManager mobsManager;
         public string debugMobId;
         public int debugMobsAmount = 5;
-        public Transform playerTrans;
-        public float movementPeriod = 0.5f;
-        public float separationRadius = 0.5f;
-        public float pushStrength = 1f;
         public Transform mobsParent;
         public Transform collectablesParent;
         public Transform projectilesParent;
-        public List<MobGroup> mobGroups = new List<MobGroup>();
-        public List<LevelMobData> mobs = new List<LevelMobData>();
 
         public List<ObjectPoolData> _objectsPool = new List<ObjectPoolData>();
 
@@ -31,16 +26,16 @@ namespace Roguelike
                 SpawnCollectable(mob.expCollectable, mob.transform.position);
             }
 
-            for (int i = 0; i < mobs.Count; i++)
+            for (int i = 0; i < mobsManager.mobs.Count; i++)
             {
-                if (mobs[i].mobTrans == mob.transform)
+                if (mobsManager.mobs[i].mobTrans == mob.transform)
                 {
-                    mobs.RemoveAt(i);
+                    mobsManager.mobs.RemoveAt(i);
                     break;
                 }
             }
 
-            counter.text = $"{mobs.Count}";
+            counter.text = $"{mobsManager.mobs.Count}";
 
             if (HasObjectPool(mob.GetObjectId))
             {
@@ -84,6 +79,8 @@ namespace Roguelike
                 var newObjectPool = new ObjectPoolData(projectile.GetObjectId, projectile.gameObject);
                 _objectsPool.Add(newObjectPool);
             }
+
+            projectile.gameObject.SetActive(false);
         }
 
         public ProjectileController SpawnProjectile(string projectileId, Vector3 spawnPosition)
@@ -91,7 +88,7 @@ namespace Roguelike
             var objectData = Settings.Get<PoolableObjects>().GetPoolableObjectData(projectileId);
             GameObject objectPrefab = null;
 
-            if (HasObjectInPool(objectData.objectId))
+            if (HasObjectInPool(projectileId))
             {
                 var objectPool = GetObjectPool(projectileId).go;
                 objectPrefab = objectPool[objectPool.Count - 1];
@@ -154,56 +151,7 @@ namespace Roguelike
 
             return null;
         }
-
-        private void Start()
-        {
-
-        }
-
-        private void Update()
-        {
-            MoveMobs();
-        }
-
-        private void MoveMobs()
-        {
-            for (int i = 0; i < mobs.Count; i++)
-            {
-                Vector2 direction = (playerTrans.position - mobs[i].mobTrans.position).normalized;
-                Vector2 newPos = (Vector2)mobs[i].mobTrans.position + direction * mobs[i].movespeed * Time.deltaTime;
-                mobs[i].mobTrans.position = newPos;
-            }
-
-            for (int i = 0; i < mobs.Count; i++)
-            {
-                for (int k = i + 1; k < mobs.Count; k++)
-                {
-                    Vector2 direction = mobs[i].mobTrans.position - mobs[k].mobTrans.position;
-                    float distance = direction.magnitude;
-
-                    if (distance < separationRadius)
-                    {
-                        if (distance < 0.001f)
-                        {
-                            direction = Random.insideUnitCircle.normalized;
-                            distance = 0.001f;
-                        }
-
-                        Vector3 push = direction.normalized * (separationRadius - distance) * pushStrength * Time.deltaTime;
-
-                        var enemyA = mobs[i];
-                        var enemyB = mobs[k];
-
-                        enemyA.mobTrans.position += push;
-                        enemyB.mobTrans.position -= push;
-
-                        mobs[i] = enemyA;
-                        mobs[k] = enemyB;
-                    }
-                }
-            }
-        }
-
+        
         private void SpawnMobDebug()
         {
             SpawnMob(debugMobId, debugMobsAmount);
@@ -237,10 +185,10 @@ namespace Roguelike
                     iPoolable.Refresh();
                 }
 
-                mobs.Add(spawnedMobData);
+                mobsManager.mobs.Add(spawnedMobData);
             }
 
-            counter.text = $"{mobs.Count}";
+            counter.text = $"{mobsManager.mobs.Count}";
         }
 
         private void SpawnCollectable(string collectableId, Vector3 spawnPosition)

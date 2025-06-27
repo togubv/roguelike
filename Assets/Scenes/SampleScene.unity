@@ -460,7 +460,7 @@ Transform:
   m_GameObject: {fileID: 343503708}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.58, y: 1.18, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -718,7 +718,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1498,6 +1498,7 @@ GameObject:
   - component: {fileID: 1586307048}
   - component: {fileID: 1586307051}
   - component: {fileID: 1586307050}
+  - component: {fileID: 1586307052}
   m_Layer: 0
   m_Name: Level
   m_TagString: Untagged
@@ -1517,12 +1518,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ef33d96cd7d5e4eaa2e5d171ed9e17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mobsManager: {fileID: 1586307052}
   debugMobId: Mob2
-  debugMobsAmount: 50
-  playerTrans: {fileID: 343503709}
-  movementPeriod: 1
-  separationRadius: 1
-  pushStrength: 1
+  debugMobsAmount: 5
   mobsParent: {fileID: 1349730590}
   collectablesParent: {fileID: 1475994609}
   projectilesParent: {fileID: 1882558640}
@@ -1570,6 +1568,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93d3ac571c447d941ae6378504913f93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1586307052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1586307047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aaafbc19c3ae744686215d168ba1491, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTrans: {fileID: 343503709}
+  pushStrength: 1
+  movementPeriod: 0.5
+  separationRadius: 0.5
+  respawnRadius: 14
+  respawnMinRadius: 10
+  respawnMaxRadius: 12
 --- !u!1 &1696194029
 GameObject:
   m_ObjectHideFlags: 0

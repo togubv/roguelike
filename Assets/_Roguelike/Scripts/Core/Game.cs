@@ -49,11 +49,11 @@ namespace Roguelike
 
             menu.Create<InGameController>();
             menu.Create<BonusController>();
+            menu.Create<MainMenuController>();
 
             menu.Init();
 
-            menu.Get<InGameController>().Show();
-            menu.Get<BonusController>().Show();
+            menu.Get<MainMenuController>().Show();
         }
     }
 }

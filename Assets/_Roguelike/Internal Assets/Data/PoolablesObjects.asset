@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8be781a26a3ec3f4a963205125a0aeab, type: 3}
   m_Name: PoolablesObjects
   m_EditorClassIdentifier: 
-  collectables:
+  poolables:
   - objectId: CollectableExp1
     prefab: {fileID: 3048357389405968857, guid: ea9283c24831f1d45a864fd94fba45cf, type: 3}
   - objectId: ProjectileDirect1
