@@ -184,9 +184,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillAnimation: {fileID: 5194417147725393434}
   cooldown: 1
-  damageValues: 0100000002000000030000000400000005000000
+  damageValues: 010000000200000003000000040000000500000006000000
+  radiuses:
+  - 0.5
+  - 0.6
+  - 0.7
+  - 0.8
+  - 0.9
+  - 1
   damagePoint: {fileID: 1116265564742271262}
-  radius: 1.5
   layerMask:
     serializedVersion: 2
     m_Bits: 512

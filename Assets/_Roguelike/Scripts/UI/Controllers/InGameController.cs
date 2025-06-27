@@ -6,7 +6,9 @@ namespace Roguelike
     {
         [Inject] private Game _game;
         [Inject] private LevelManager _levelManager;
+        [Inject] private BonusManager _bonusManager;
         private InGameView _view;
+        private BonusesPool _bonusesPool;
 
         public void Create()
         {
@@ -17,6 +19,7 @@ namespace Roguelike
 
         public void Init()
         {
+            _bonusesPool = Settings.Get<BonusesPool>();
             _view.Init();
         }
 
@@ -46,18 +49,32 @@ namespace Roguelike
             _view.UpdatePlayerLevel(level);
         }
 
+        private void UpdateSkillsHandler()
+        {
+            _view.ClearSkillContainers();
+            var bonuses = _bonusManager.activeBonuses;
+
+            for (int i = 0; i < bonuses.Count; i++)
+            {
+                var bonusData = _bonusesPool.GetBonusData(bonuses[i].bonusId);
+                _view.SpawnSkillContainer(bonusData.portrait, bonusData.title, bonuses[i].bonusLevel);
+            }
+        }
+
         #region Private Methods
 
         private void AddHandlers()
         {
             _levelManager.EventUpdatePlayerExperience += UpdatePlayerExperienceHandler;
             _levelManager.EventUpdatePlayerLevel += UpdatePlayerLevelHandler;
+            _bonusManager.EventUpdateSkills += UpdateSkillsHandler;
         }
 
         private void RemoveHandlers()
         {
             _levelManager.EventUpdatePlayerExperience -= UpdatePlayerExperienceHandler;
             _levelManager.EventUpdatePlayerLevel -= UpdatePlayerLevelHandler;
+            _bonusManager.EventUpdateSkills -= UpdateSkillsHandler;
         }
 
         #endregion Private Methods

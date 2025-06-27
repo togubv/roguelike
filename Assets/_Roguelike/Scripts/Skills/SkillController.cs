@@ -10,21 +10,10 @@ namespace Roguelike
         public int[] damageValues;
 
         protected int _level = 1;
-        protected int _damageValue;
 
         public void IncreaseLevel()
         {
             _level += 1;
-
-            if (damageValues.Length >= _level)
-            {
-                _damageValue = damageValues[_level - 1];
-            }
-        }
-
-        protected void Start()
-        {
-            _damageValue = damageValues[0];
         }
 
         protected void OnEnable()
@@ -49,13 +38,13 @@ namespace Roguelike
 
         protected int GetLevelIndex(int length)
         {
-            if (length < _level)
+            if (_level < length)
             {
-                return _level;
+                return _level - 1;
             }
             else
             {
-                return length;
+                return length - 1;
             }
         }
     }

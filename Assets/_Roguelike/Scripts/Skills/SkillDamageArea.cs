@@ -12,13 +12,13 @@ namespace Roguelike
         {
             base.CastSkill();
 
-            var targets = Physics2D.OverlapCircleAll(damagePoint.position, radiuses[_level], layerMask);
+            var targets = Physics2D.OverlapCircleAll(damagePoint.position, radiuses[GetLevelIndex(radiuses.Length)], layerMask);
 
             for (int i = 0; i < targets.Length; i++)
             {
                 if (targets[i].TryGetComponent<IDamagable>(out IDamagable iDamagable))
                 {
-                    iDamagable.TakeDamage(_damageValue);
+                    iDamagable.TakeDamage(damageValues[GetLevelIndex(damageValues.Length)]);
                 }
             }
         }

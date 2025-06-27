@@ -6,7 +6,7 @@ namespace Roguelike
 
         protected override void CastSkill()
         {
-            spawnProjectile.Spawn(_damageValue);
+            spawnProjectile.Spawn(damageValues[GetLevelIndex(damageValues.Length)]);
         }
     }
 }

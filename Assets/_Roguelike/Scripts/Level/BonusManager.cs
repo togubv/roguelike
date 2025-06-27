@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Anthill.Inject;
 using UnityEngine;
@@ -6,7 +7,11 @@ namespace Roguelike
 {
     public class BonusManager : MonoBehaviour
     {
+        public event Action EventUpdateSkills;
+
         public Transform skillsParent;
+
+        public List<PlayerBonusData> activeBonuses => _activeBonuses;
 
         [Inject] private LevelManager _levelManager;
         private BonusController _bonusController;
@@ -45,6 +50,8 @@ namespace Roguelike
             
             _bonusesDraft.Clear();
             Time.timeScale = 1f;
+
+            EventUpdateSkills?.Invoke();
         }
 
         private void Awake()
@@ -109,7 +116,7 @@ namespace Roguelike
                     break;
                 }
 
-                int randomIndex = Random.Range(0, availableBonuses.Count);
+                int randomIndex = UnityEngine.Random.Range(0, availableBonuses.Count);
                 availableBonuses[randomIndex].level = GetPlayerBonusLevel(availableBonuses[randomIndex].id) + 1;
                 _bonusesDraft.Add(availableBonuses[randomIndex]);
                 availableBonuses.RemoveAt(randomIndex);
