@@ -8,6 +8,7 @@ namespace Roguelike
     {
         public string id;
         public float movespeed;
+        public int baseHealth;
         public GameObject prefab;
     }
 }

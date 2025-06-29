@@ -9,12 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9dbacae6bc5395f4082ff2a92a60eec0, type: 3}
-  m_Name: GameSettings
+  m_Script: {fileID: 11500000, guid: 5ed491b35b59cd24dbb7b38a0508daa8, type: 3}
+  m_Name: LevelsPool
   m_EditorClassIdentifier: 
-  playerBaseMovespeed: 3
-  baseExperienceRequired: 4
-  nextLevelExperienceMultiplier: 0.25
-  respawnRadius: 16
-  respawnMinRadius: 10
-  respawnMaxRadius: 12
+  levels:
+  - waves:
+    - delay: 0
+      mobId: Mob1
+      amount: 10
+      duration: 10
+    - delay: 10
+      mobId: Mob2
+      amount: 10
+      duration: 10
+    rewardMultiplicator: 1

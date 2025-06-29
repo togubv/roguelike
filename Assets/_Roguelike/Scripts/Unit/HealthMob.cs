@@ -19,7 +19,7 @@ namespace Roguelike
 
         public void Refresh()
         {
-            Init();
+            Init(_maxHealth);
         }
 
         public void Despawn()

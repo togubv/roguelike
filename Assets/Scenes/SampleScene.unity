@@ -888,7 +888,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee0650980de488e45b00cb897a4f533a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  magnetizeSpeed: 1
+  magnetizeSpeed: 2
   collectRange: 0.1
   _collects: []
 --- !u!50 &649934690
@@ -1206,7 +1206,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e738039379dc67d4e932f3fc098fb727, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseHealthValue: 1000
 --- !u!1 &1349730589
 GameObject:
   m_ObjectHideFlags: 0
@@ -1617,9 +1616,6 @@ MonoBehaviour:
   pushStrength: 1
   movementPeriod: 0.5
   separationRadius: 0.5
-  respawnRadius: 14
-  respawnMinRadius: 10
-  respawnMaxRadius: 12
 --- !u!1 &1696194029
 GameObject:
   m_ObjectHideFlags: 0
@@ -1874,7 +1870,7 @@ Canvas:
   m_GameObject: {fileID: 2003575676}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 519420031}
   m_PlaneDistance: 10
   m_PixelPerfect: 0
@@ -2123,6 +2119,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 15bb86cdf1d4fb34382732b16a99f83b, type: 2}
   - {fileID: 11400000, guid: 6c885a353ab01d84ca843464d6b0b519, type: 2}
   - {fileID: 11400000, guid: f2d6b7ed77f56a24780699f96f0e2393, type: 2}
+  - {fileID: 11400000, guid: fde0ab3bc2b25be488658bd826013eff, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

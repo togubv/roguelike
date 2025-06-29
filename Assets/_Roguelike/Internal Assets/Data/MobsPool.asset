@@ -15,7 +15,9 @@ MonoBehaviour:
   mobs:
   - id: Mob1
     movespeed: 0.5
-    prefab: {fileID: 2993099059639148046, guid: bf61cde5d573b0d428a8496903f599c9, type: 3}
+    baseHealth: 1
+    prefab: {fileID: 2662544511176669241, guid: 0cf49dbfabc379c4f88fcce58c78328a, type: 3}
   - id: Mob2
     movespeed: 0.5
-    prefab: {fileID: 7031237636270137893, guid: 6b0992461bea1d64fb0d01c963ef082c, type: 3}
+    baseHealth: 2
+    prefab: {fileID: 4154854619743028718, guid: 7624ac7a4f25cf6479c73a094f10185f, type: 3}

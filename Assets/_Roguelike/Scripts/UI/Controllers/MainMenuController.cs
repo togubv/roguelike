@@ -6,6 +6,7 @@ namespace Roguelike
     public class MainMenuController : IController
     {
         [Inject] private Game _game;
+        [Inject] private LevelManager _levelManager;
         private MainMenuView _view;
 
         public void Create()
@@ -46,16 +47,24 @@ namespace Roguelike
             Hide();
         }
 
+        private void LevelClickedHandler(int index)
+        {
+            _levelManager.StartLevel(index);
+            StartHandler();
+        }
+
         #region Private Methods
 
         private void AddHandlers()
         {
             _view.EventStartGame += StartHandler;
+            _view.EventLevelClicked += LevelClickedHandler;
         }
 
         private void RemoveHandlers()
         {
             _view.EventStartGame -= StartHandler;
+            _view.EventLevelClicked -= LevelClickedHandler;
         }
 
         #endregion Private Methods

@@ -9,11 +9,32 @@ namespace Roguelike
         public float pushStrength = 1f;
         public float movementPeriod = 0.5f;
         public float separationRadius = 0.5f;
-        public float respawnRadius;
-        public float respawnMinRadius;
-        public float respawnMaxRadius;
 
         public List<LevelMobData> mobs = new List<LevelMobData>();
+
+        private float _respawnRadius;
+        private float _respawnMinRadius;
+        private float _respawnMaxRadius;
+
+        public Vector2 GetRandomPointOutsideRadius()
+        {
+            float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
+            float distance = Random.Range(_respawnMinRadius, _respawnMaxRadius);
+
+            float x = playerTrans.position.x + Mathf.Cos(angle) * distance;
+            float y = playerTrans.position.y + Mathf.Sin(angle) * distance;
+
+            return new Vector2(x, y);
+        }
+
+        private void Awake()
+        {
+            var gameSettings = Settings.Get<GameSettings>();
+
+            _respawnRadius = gameSettings.respawnRadius;
+            _respawnMinRadius = gameSettings.respawnMinRadius;
+            _respawnMaxRadius = gameSettings.respawnMaxRadius;
+        }
 
         private void Update()
         {
@@ -27,9 +48,9 @@ namespace Roguelike
                 Vector2 direction = (playerTrans.position - mobs[i].mobTrans.position).normalized;
                 Vector2 newPos = (Vector2)mobs[i].mobTrans.position + direction * mobs[i].movespeed * Time.deltaTime;
 
-                if (Vector2.Distance(playerTrans.position, newPos) > respawnRadius)
+                if (Vector2.Distance(playerTrans.position, newPos) > _respawnRadius)
                 {
-                    newPos = GetRandomPointOutsideRadius(playerTrans.position, respawnMinRadius, respawnMaxRadius);
+                    newPos = GetRandomPointOutsideRadius();
                 }
 
                 mobs[i].mobTrans.position = newPos;
@@ -63,17 +84,6 @@ namespace Roguelike
                     }
                 }
             }
-        }
-
-        public Vector2 GetRandomPointOutsideRadius(Vector2 point, float minRadius, float maxRadius)
-        {
-            float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
-            float distance = Random.Range(minRadius, maxRadius);
-
-            float x = point.x + Mathf.Cos(angle) * distance;
-            float y = point.y + Mathf.Sin(angle) * distance;
-
-            return new Vector2(x, y);
         }
     }
 }

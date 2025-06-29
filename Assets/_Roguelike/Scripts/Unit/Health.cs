@@ -7,16 +7,9 @@ namespace Roguelike
     {
         public event Action<int, int> EventUpdateHealthValue;
 
-        public int baseHealthValue = 1;
-
         protected bool _isAlive;
         protected int _currentHealth;
         protected int _maxHealth;
-
-        private void Awake()
-        {
-            Init();
-        }
 
         public bool IsAlive()
         {
@@ -27,6 +20,8 @@ namespace Roguelike
         {
             _currentHealth -= damageValue;
 
+            Game.menu.Get<InGameController>().AddDamageNumber(damageValue.ToString(), transform.position);
+
             if (_currentHealth <= 0)
             {
                 Death();
@@ -36,7 +31,7 @@ namespace Roguelike
             return false;
         }
 
-        protected virtual void Init()
+        public virtual void Init(int baseHealthValue)
         {
             _maxHealth = baseHealthValue;
             _currentHealth = _maxHealth;

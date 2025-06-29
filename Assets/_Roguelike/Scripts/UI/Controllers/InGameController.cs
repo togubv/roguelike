@@ -1,4 +1,5 @@
 using Anthill.Inject;
+using UnityEngine;
 
 namespace Roguelike
 {
@@ -9,6 +10,7 @@ namespace Roguelike
         [Inject] private BonusManager _bonusManager;
         private InGameView _view;
         private BonusesPool _bonusesPool;
+        private GameSettings _gameSettings;
 
         public void Create()
         {
@@ -20,6 +22,7 @@ namespace Roguelike
         public void Init()
         {
             _bonusesPool = Settings.Get<BonusesPool>();
+            _gameSettings = Settings.Get<GameSettings>();
             _view.Init();
         }
 
@@ -33,6 +36,16 @@ namespace Roguelike
         {
             _view.Hide();
             RemoveHandlers();
+        }
+
+        public void AddDamageNumber(string damageNumber, Vector2 worldPoint)
+        {
+            if (_gameSettings.showDamageNumber == false)
+            {
+                return;
+            }
+
+            _view.AddDamageNumber(damageNumber, worldPoint);
         }
 
         #region Event Handlers

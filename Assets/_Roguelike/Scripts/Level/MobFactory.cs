@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Anthill.Inject;
 using TMPro;
 using UnityEngine;
 
@@ -15,9 +16,46 @@ namespace Roguelike
 
         public List<ObjectPoolData> _objectsPool = new List<ObjectPoolData>();
 
+        [Inject] private MobsManager _mobsManager;
+
         // DEBUG
 
         public TMP_Text counter;
+
+        public void SpawnMob(string mobId, int amount = 1)
+        {
+            for (int i = 0; i < amount; i++)
+            {
+                var mobData = Settings.Get<MobsPool>().GetMobData(mobId);
+                GameObject mobPrefab = null;
+
+                if (HasObjectInPool(mobId))
+                {
+                    var objectPool = GetObjectPool(mobId).go;
+                    mobPrefab = objectPool[objectPool.Count - 1];
+                    objectPool.RemoveAt(objectPool.Count - 1);
+                    mobPrefab.transform.position = _mobsManager.GetRandomPointOutsideRadius();
+                    mobPrefab.SetActive(true);
+                }
+                else
+                {
+                    mobPrefab = Instantiate(mobData.prefab, _mobsManager.GetRandomPointOutsideRadius(), Quaternion.identity, mobsParent);
+                    mobPrefab.GetComponent<Health>().Init(mobData.baseHealth);
+                }
+
+                var spawnedMobData = new LevelMobData(mobPrefab.transform, mobData.movespeed);
+
+                if (mobPrefab.TryGetComponent<IPoolable>(out IPoolable iPoolable))
+                {
+                    iPoolable.Init(this, mobId);
+                    iPoolable.Refresh();
+                }
+
+                mobsManager.mobs.Add(spawnedMobData);
+            }
+
+            counter.text = $"{mobsManager.mobs.Count}";
+        }
 
         public void DespawnMob(HealthMob mob)
         {
@@ -110,6 +148,11 @@ namespace Roguelike
             return objectPrefab.GetComponent<ProjectileController>();
         }
 
+        private void Awake()
+        {
+            this.InjectMono();
+        }
+
         private bool HasObjectInPool(string id)
         {
             for (int i = 0; i < _objectsPool.Count; i++)
@@ -155,40 +198,6 @@ namespace Roguelike
         private void SpawnMobDebug()
         {
             SpawnMob(debugMobId, debugMobsAmount);
-        }
-
-        private void SpawnMob(string mobId, int amount = 1, float period = 1f)
-        {
-            for (int i = 0; i < amount; i++)
-            {
-                var mobData = Settings.Get<MobsPool>().GetMobData(mobId);
-                GameObject mobPrefab = null;
-
-                if (HasObjectInPool(mobId))
-                {
-                    var objectPool = GetObjectPool(mobId).go;
-                    mobPrefab = objectPool[objectPool.Count - 1];
-                    objectPool.RemoveAt(objectPool.Count - 1);
-                    mobPrefab.transform.position = Vector2.zero;
-                    mobPrefab.SetActive(true);
-                }
-                else
-                {
-                    mobPrefab = Instantiate(mobData.prefab, Vector2.zero, Quaternion.identity, mobsParent);
-                }
-
-                var spawnedMobData = new LevelMobData(mobPrefab.transform, mobData.movespeed);
-                
-                if (mobPrefab.TryGetComponent<IPoolable>(out IPoolable iPoolable))
-                {
-                    iPoolable.Init(this, mobId);
-                    iPoolable.Refresh();
-                }
-
-                mobsManager.mobs.Add(spawnedMobData);
-            }
-
-            counter.text = $"{mobsManager.mobs.Count}";
         }
 
         private void SpawnCollectable(string collectableId, Vector3 spawnPosition)

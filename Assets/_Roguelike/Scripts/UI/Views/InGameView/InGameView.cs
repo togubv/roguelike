@@ -13,7 +13,22 @@ namespace Roguelike
         public SkillContainer skillContainerPrefab;
         public Transform skillsParent;
 
+        [Header("Damage Number")]
+        public TMP_Text damageNumberContainerPrefab;
+        public Transform damageNumbersParent;
+
+        private Camera _cam;
+        private float _damageNumberLifetime;
+
         private List<SkillContainer> _skillContainers = new List<SkillContainer>();
+        private List<DamageNumberData> _damageNumbers = new List<DamageNumberData>();
+        private List<TMP_Text> _damageNumbersPool = new List<TMP_Text>();
+
+        public override void Init()
+        {
+            _cam = Camera.main;
+            _damageNumberLifetime = Settings.Get<GameSettings>().damageNumberLifetime;
+        }
 
         public void UpdatePlayerExperienceValue(int value, int maxValue)
         {
@@ -42,6 +57,56 @@ namespace Roguelike
             }
 
             _skillContainers.Clear();
+        }
+
+        public void AddDamageNumber(string damageNumber, Vector2 worldPoint)
+        {
+            TMP_Text spawnedDamageNumber = null;
+
+            if (_damageNumbersPool.Count < 1)
+            {
+                spawnedDamageNumber = Instantiate(damageNumberContainerPrefab, damageNumbersParent);
+            }
+            else
+            {
+                spawnedDamageNumber = _damageNumbersPool[_damageNumbersPool.Count - 1];
+                spawnedDamageNumber.gameObject.SetActive(true);
+                _damageNumbersPool.RemoveAt(_damageNumbersPool.Count - 1);
+            }
+
+            var damageNumberData = new DamageNumberData(damageNumber, worldPoint, spawnedDamageNumber);
+            damageNumberData.lifetime = _damageNumberLifetime;
+            damageNumberData.lifetimer = _damageNumberLifetime;
+            spawnedDamageNumber.text = damageNumber;
+            spawnedDamageNumber.transform.position = worldPoint;
+            _damageNumbers.Add(damageNumberData);
+        }
+
+        private void Update()
+        {
+            MoveDamageNumbers();
+        }
+
+        private void MoveDamageNumbers()
+        {
+            if (_damageNumbers.Count < 1)
+            {
+                return;
+            }
+
+            for (int i = _damageNumbers.Count - 1; i >= 0; i--)
+            {
+                var screenPoint = _cam.WorldToScreenPoint(_damageNumbers[i].worldPoint);
+                _damageNumbers[i].damageNumberText.transform.position = screenPoint;
+                _damageNumbers[i].lifetimer -= Time.deltaTime;
+
+                if (_damageNumbers[i].lifetimer <= 0)
+                {
+                    _damageNumbers[i].damageNumberText.gameObject.SetActive(false);
+                    _damageNumbersPool.Add(_damageNumbers[i].damageNumberText);
+                    _damageNumbers.RemoveAt(i);
+                }
+            }
         }
     }
 }

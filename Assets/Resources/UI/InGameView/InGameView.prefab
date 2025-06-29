@@ -106,6 +106,7 @@ RectTransform:
   m_Children:
   - {fileID: 8372093423222339203}
   - {fileID: 674855310871128228}
+  - {fileID: 7766829190294383918}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -130,6 +131,8 @@ MonoBehaviour:
   levelText: {fileID: 8929590847165072251}
   skillContainerPrefab: {fileID: 2987529026345540357, guid: 531232cf67726ed4f87a1c7599d54cd3, type: 3}
   skillsParent: {fileID: 1561346854160100341}
+  damageNumberContainerPrefab: {fileID: 7174780478499522156, guid: fc755b7e58995ca4cb37716e9488199a, type: 3}
+  damageNumbersParent: {fileID: 7766829190294383918}
 --- !u!1 &652117355303622324
 GameObject:
   m_ObjectHideFlags: 0
@@ -607,6 +610,41 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1561346854160100341}
+  m_Father: {fileID: 2616431267918471550}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &8864560581378711131
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7766829190294383918}
+  m_Layer: 5
+  m_Name: DamageNumbersContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7766829190294383918
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8864560581378711131}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 2616431267918471550}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

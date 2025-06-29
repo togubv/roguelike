@@ -39,6 +39,12 @@ namespace Roguelike
                 injectContainer.RegisterSingleton(mobFactory);
             }
 
+            var mobsManager = FindAnyObjectByType<MobsManager>();
+            if (mobsManager != null)
+            {
+                injectContainer.RegisterSingleton(mobsManager);
+            }
+
             var bonusManager = FindAnyObjectByType<BonusManager>();
             if (bonusManager != null)
             {
