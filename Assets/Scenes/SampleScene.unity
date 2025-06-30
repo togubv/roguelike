@@ -1627,6 +1627,7 @@ GameObject:
   - component: {fileID: 1696194031}
   - component: {fileID: 1696194030}
   - component: {fileID: 1696194032}
+  - component: {fileID: 1696194033}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1676,6 +1677,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillsParent: {fileID: 398446054}
+--- !u!114 &1696194033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1696194029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afbf38a964dce6f4e9d5144d8df3fbec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1762068789
 GameObject:
   m_ObjectHideFlags: 0

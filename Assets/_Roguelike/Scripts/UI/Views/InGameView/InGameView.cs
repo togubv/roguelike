@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 namespace Roguelike
 {
@@ -79,6 +80,8 @@ namespace Roguelike
             damageNumberData.lifetimer = _damageNumberLifetime;
             spawnedDamageNumber.text = damageNumber;
             spawnedDamageNumber.transform.position = worldPoint;
+            spawnedDamageNumber.transform.localScale = new Vector2(0.1f, 0.1f);
+            spawnedDamageNumber.transform.DOScale(1f, damageNumberData.lifetime * 0.25f).OnComplete(() => spawnedDamageNumber.transform.DOScale(0.1f, damageNumberData.lifetime * 0.75f));
             _damageNumbers.Add(damageNumberData);
         }
 

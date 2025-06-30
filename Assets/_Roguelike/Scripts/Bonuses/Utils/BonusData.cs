@@ -10,6 +10,7 @@ namespace Roguelike
         public string title;
         public string description;
         public Sprite portrait;
+        public BonusStatData[] stats;
         public int maxLevel = 1;
         public GameObject skillPrefab;
 

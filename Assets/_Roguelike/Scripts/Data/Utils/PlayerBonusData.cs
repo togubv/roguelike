@@ -16,5 +16,11 @@ namespace Roguelike
             this.bonusLevel = bonusLevel;
             this.skill = skill.GetComponent<SkillController>();
         }
+
+        public PlayerBonusData(string bonusId, int bonusLevel)
+        {
+            this.bonusId = bonusId;
+            this.bonusLevel = bonusLevel;
+        }
     }
 }

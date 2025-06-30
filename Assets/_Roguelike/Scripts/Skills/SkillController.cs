@@ -10,10 +10,16 @@ namespace Roguelike
         public int[] damageValues;
 
         protected int _level = 1;
+        protected float _damageMultiplicator = 0f;
 
         public void IncreaseLevel()
         {
             _level += 1;
+        }
+
+        public void SetDamageMultiplicator(float multiplier)
+        {
+            _damageMultiplicator = multiplier;
         }
 
         protected void OnEnable()
@@ -46,6 +52,11 @@ namespace Roguelike
             {
                 return length - 1;
             }
+        }
+
+        protected int GetDamageValue()
+        {
+            return Mathf.RoundToInt(damageValues[GetLevelIndex(_level)] + (damageValues[GetLevelIndex(_level)] * _damageMultiplicator));
         }
     }
 }

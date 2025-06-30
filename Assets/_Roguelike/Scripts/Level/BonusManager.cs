@@ -14,6 +14,7 @@ namespace Roguelike
         public List<PlayerBonusData> activeBonuses => _activeBonuses;
 
         [Inject] private LevelManager _levelManager;
+        [Inject] private PlayerStatsManager _playerStatsManager;
         private BonusController _bonusController;
         private BonusesPool _bonusesPool;
 
@@ -30,18 +31,38 @@ namespace Roguelike
             if (playerBonus == null)
             {
                 bonusLevel = 1;
-                var spawnedSkill = Instantiate(_bonusesDraft[bonusIndex].skillPrefab, skillsParent);
-                spawnedSkill.transform.rotation = skillsParent.rotation;
-                _activeBonuses.Add(new PlayerBonusData(_bonusesDraft[bonusIndex].id, bonusLevel, spawnedSkill));
+
+                if (_bonusesDraft[bonusIndex].skillPrefab == null)
+                {
+                    _activeBonuses.Add(new PlayerBonusData(_bonusesDraft[bonusIndex].id, bonusLevel));
+                }
+                else
+                {
+                    var spawnedSkill = Instantiate(_bonusesDraft[bonusIndex].skillPrefab, skillsParent);
+                    spawnedSkill.transform.rotation = skillsParent.rotation;
+                    var playerBonusData = new PlayerBonusData(_bonusesDraft[bonusIndex].id, bonusLevel, spawnedSkill);
+                    SetSkillStats(playerBonusData.skill);
+                    _activeBonuses.Add(playerBonusData);
+                }
             }
             else
             {
                 bonusLevel = playerBonus.bonusLevel + 1;
                 playerBonus.bonusLevel = bonusLevel;
-                playerBonus.skill.IncreaseLevel();
+
+                if (playerBonus.skill != null)
+                {
+                    playerBonus.skill.IncreaseLevel();
+                }
             }
 
             var bonusData = _bonusesPool.GetBonusData(_bonusesDraft[bonusIndex].id);
+            _playerStatsManager.AddBonusStats(bonusData, bonusLevel);
+
+            if (bonusData.stats.Length > 0)
+            {
+                UpdateBonusesStats();
+            }
 
             if (bonusData.maxLevel == bonusLevel)
             {
@@ -72,6 +93,25 @@ namespace Roguelike
         private void OnDisable()
         {
             _levelManager.EventUpdatePlayerLevel -= UpdatePlayerLevelHandler;
+        }
+
+        private void UpdateBonusesStats()
+        {
+            float damageMultiplier = _playerStatsManager.GetAdditionalStatPercentValue(StatType.Damage);
+
+            for (int i = 0; i < _activeBonuses.Count; i++)
+            {
+                if (_activeBonuses[i].skill != null)
+                {
+                    _activeBonuses[i].skill.SetDamageMultiplicator(damageMultiplier);
+                }
+            }
+        }
+
+        private void SetSkillStats(SkillController skill)
+        {
+            float damageMultiplier = _playerStatsManager.GetAdditionalStatPercentValue(StatType.Damage);
+            skill.SetDamageMultiplicator(damageMultiplier);
         }
 
         private void UpdatePlayerLevelHandler(int playerLevel)

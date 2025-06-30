@@ -18,3 +18,5 @@ MonoBehaviour:
   respawnRadius: 16
   respawnMinRadius: 10
   respawnMaxRadius: 12
+  showDamageNumber: 1
+  damageNumberLifetime: 2

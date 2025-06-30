@@ -18,7 +18,7 @@ namespace Roguelike
             {
                 if (targets[i].TryGetComponent<IDamagable>(out IDamagable iDamagable))
                 {
-                    iDamagable.TakeDamage(damageValues[GetLevelIndex(damageValues.Length)]);
+                    iDamagable.TakeDamage(GetDamageValue());
                 }
             }
         }

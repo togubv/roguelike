@@ -51,6 +51,12 @@ namespace Roguelike
                 injectContainer.RegisterSingleton(bonusManager);
             }
 
+            var playerStatsManager = FindAnyObjectByType<PlayerStatsManager>();
+            if (playerStatsManager != null)
+            {
+                injectContainer.RegisterSingleton(playerStatsManager);
+            }
+
             menu = new Menu();
 
             menu.Create<InGameController>();
