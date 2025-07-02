@@ -28,7 +28,7 @@ MonoBehaviour:
     stats: []
     maxLevel: 3
     skillPrefab: {fileID: 4081332363166214420, guid: 0959d28906632304ca474e468d801eac, type: 3}
-    level: 1
+    level: 3
   - id: BonusMovespeed
     title: Speedy
     description: Increase movespeed
@@ -39,7 +39,7 @@ MonoBehaviour:
       percentPerLevel: 0.25
     maxLevel: 7
     skillPrefab: {fileID: 0}
-    level: 4
+    level: 2
   - id: BonusDamage
     title: Damage
     description: Increase damage
@@ -50,4 +50,15 @@ MonoBehaviour:
       percentPerLevel: 0.25
     maxLevel: 7
     skillPrefab: {fileID: 0}
-    level: 4
+    level: 1
+  - id: BonusCooldown
+    title: Cooldown
+    description: Decrease cooldown
+    portrait: {fileID: 0}
+    stats:
+    - type: 5
+      fixedValuePerLevel: 0
+      percentPerLevel: 0.1
+    maxLevel: 7
+    skillPrefab: {fileID: 0}
+    level: 1

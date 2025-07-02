@@ -8,11 +8,13 @@ namespace Roguelike
         public Transform damagePoint;
         public LayerMask layerMask;
 
+        private float _radiusMultiplicator = 0f;
+
         protected override void CastSkill()
         {
             base.CastSkill();
 
-            var targets = Physics2D.OverlapCircleAll(damagePoint.position, radiuses[GetLevelIndex(radiuses.Length)], layerMask);
+            var targets = Physics2D.OverlapCircleAll(damagePoint.position, GetRadiusValue(), layerMask);
 
             for (int i = 0; i < targets.Length; i++)
             {
@@ -21,6 +23,12 @@ namespace Roguelike
                     iDamagable.TakeDamage(GetDamageValue());
                 }
             }
+        }
+
+        protected float GetRadiusValue()
+        {
+            int index = GetLevelIndex(_level);
+            return radiuses[index] + (radiuses[index] * _radiusMultiplicator);
         }
     }
 }

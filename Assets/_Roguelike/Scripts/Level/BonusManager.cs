@@ -98,12 +98,14 @@ namespace Roguelike
         private void UpdateBonusesStats()
         {
             float damageMultiplier = _playerStatsManager.GetAdditionalStatPercentValue(StatType.Damage);
+            float cooldownMultiplicator = _playerStatsManager.GetAdditionalStatPercentValue(StatType.Cooldown);
 
             for (int i = 0; i < _activeBonuses.Count; i++)
             {
                 if (_activeBonuses[i].skill != null)
                 {
                     _activeBonuses[i].skill.SetDamageMultiplicator(damageMultiplier);
+                    _activeBonuses[i].skill.SetCooldownMultiplicator(cooldownMultiplicator);
                 }
             }
         }
@@ -111,7 +113,9 @@ namespace Roguelike
         private void SetSkillStats(SkillController skill)
         {
             float damageMultiplier = _playerStatsManager.GetAdditionalStatPercentValue(StatType.Damage);
+            float cooldownMultiplier = _playerStatsManager.GetAdditionalStatPercentValue(StatType.Cooldown);
             skill.SetDamageMultiplicator(damageMultiplier);
+            skill.SetCooldownMultiplicator(cooldownMultiplier);
         }
 
         private void UpdatePlayerLevelHandler(int playerLevel)

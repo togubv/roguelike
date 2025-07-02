@@ -6,11 +6,12 @@ namespace Roguelike
     public class SkillController : MonoBehaviour
     {
         public Animation skillAnimation;
-        public float cooldown = 1f;
+        public float[] cooldown;
         public int[] damageValues;
 
         protected int _level = 1;
         protected float _damageMultiplicator = 0f;
+        protected float _cooldownMultiplicator = 0f;
 
         public void IncreaseLevel()
         {
@@ -20,6 +21,11 @@ namespace Roguelike
         public void SetDamageMultiplicator(float multiplier)
         {
             _damageMultiplicator = multiplier;
+        }
+
+        public void SetCooldownMultiplicator(float multiplier)
+        {
+            _cooldownMultiplicator = multiplier;
         }
 
         protected void OnEnable()
@@ -36,7 +42,7 @@ namespace Roguelike
         {
             while (true)
             {
-                yield return new WaitForSeconds(cooldown);
+                yield return new WaitForSeconds(GetCooldownValue());
 
                 CastSkill();
             }
@@ -56,7 +62,14 @@ namespace Roguelike
 
         protected int GetDamageValue()
         {
-            return Mathf.RoundToInt(damageValues[GetLevelIndex(_level)] + (damageValues[GetLevelIndex(_level)] * _damageMultiplicator));
+            int index = GetLevelIndex(_level);
+            return Mathf.RoundToInt(damageValues[index] + (damageValues[index] * _damageMultiplicator));
+        }
+
+        protected float GetCooldownValue()
+        {
+            int index = GetLevelIndex(_level);
+            return cooldown[index] - (cooldown[index] * _cooldownMultiplicator);
         }
     }
 }
