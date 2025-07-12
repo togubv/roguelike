@@ -7,10 +7,16 @@ namespace Roguelike
 {
     public class LevelManager : MonoBehaviour
     {
+        public event Action<int, int> EventUpdatePlayerHealth;
         public event Action<int, int> EventUpdatePlayerExperience;
         public event Action<int> EventUpdatePlayerLevel;
 
+        public HealthPlayer characterPrefab;
+
+        [Inject] private Game _game;
         [Inject] private MobFactory _mobFactory;
+        [Inject] private MobsManager _mobsManager;
+        [Inject] private PlayerStatsManager _playerStatsManager;
 
         private int _playerExperienceValue;
         private int _playerExperienceRequired;
@@ -20,6 +26,7 @@ namespace Roguelike
         public void StartLevel(int index)
         {
             var levelData = Settings.Get<LevelsPool>().GetLevelData(index);
+            InitPlayer();
             StartCoroutine(PlayingLevel(levelData));
         }
 
@@ -33,6 +40,11 @@ namespace Roguelike
             }
 
             EventUpdatePlayerExperience?.Invoke(_playerExperienceValue, _playerExperienceRequired);
+        }
+
+        public void UpdatePlayerHealth(int value, int maxValue)
+        {
+            EventUpdatePlayerHealth?.Invoke(value, maxValue);
         }
 
         private void Awake()
@@ -63,6 +75,15 @@ namespace Roguelike
             {
                 PlayerLevelUp();
             }
+        }
+
+        private void InitPlayer()
+        {
+            var spawnedPlayer = Instantiate(characterPrefab, _playerStatsManager.transform);
+            spawnedPlayer.Init(_playerStatsManager.baseHealthValue);
+            _game.cinemachineCamera.Follow = spawnedPlayer.transform;
+            _playerStatsManager.InitCharacter(spawnedPlayer);
+            _mobsManager.SetPlayerTransform(spawnedPlayer.transform);
         }
 
         private IEnumerator PlayingLevel(LevelData data)

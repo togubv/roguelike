@@ -1,10 +1,15 @@
 using System.Collections;
+using Anthill.Inject;
 using UnityEngine;
 
 namespace Roguelike
 {
     public class HealthPlayer : Health
     {
+        [Inject] LevelManager _levelManager;
+
+        public Transform skillsParent;
+
         private int _mobsInRange;
         private bool _isTakingDamage;
 
@@ -16,14 +21,21 @@ namespace Roguelike
 
             if (isLethal)
             {
+                UpdatePlayerHealth();
                 Death();
             }
             else
             {
                 DecreaseHealth(damageValue);
+                UpdatePlayerHealth();
             }
 
             return isLethal;
+        }
+
+        private void Awake()
+        {
+            this.InjectMono();
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -42,6 +54,13 @@ namespace Roguelike
             }
         }
 
+        public override void Init(int baseHealthValue)
+        {
+            base.Init(baseHealthValue);
+
+            UpdatePlayerHealth();
+        }
+
         private void UpdateMobsAmount(int amount)
         {
             _mobsInRange += amount;
@@ -57,12 +76,17 @@ namespace Roguelike
             }
             else
             {
-                if (_mobsInRange > 1)
+                if (_mobsInRange > 0)
                 {
                     _isTakingDamage = true;
                     _takingDamage = StartCoroutine(TakingDamage());
                 }
             }
+        }
+
+        private void UpdatePlayerHealth()
+        {
+            _levelManager.UpdatePlayerHealth(_currentHealth, _maxHealth);
         }
 
         private IEnumerator TakingDamage()

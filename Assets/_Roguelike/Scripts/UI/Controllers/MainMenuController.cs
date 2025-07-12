@@ -25,11 +25,14 @@ namespace Roguelike
         {
             _view.Show();
             AddHandlers();
+            var levels = Settings.Get<LevelsPool>().levels;
+            _view.InitLevels(levels);
             Time.timeScale = 0f;
         }
 
         public void Hide()
         {
+            _view.ClearLevels();
             _view.Hide();
             RemoveHandlers();
             Time.timeScale = 1f;
@@ -49,8 +52,8 @@ namespace Roguelike
 
         private void LevelClickedHandler(int index)
         {
-            _levelManager.StartLevel(index);
             StartHandler();
+            _levelManager.StartLevel(index);
         }
 
         #region Private Methods

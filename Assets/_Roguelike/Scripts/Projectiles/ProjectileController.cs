@@ -16,9 +16,12 @@ namespace Roguelike
         protected Vector2 _startPoint;
         protected int _damageValue = 0;
 
-        public void SetData(int damageValue)
+        protected string[] _damageTags;
+
+        public void SetData(int damageValue, string[] damageTags)
         {
             _damageValue = damageValue;
+            _damageTags = damageTags;
         }
 
         public void Init(MobFactory mobFactory, string objectId)
@@ -46,7 +49,10 @@ namespace Roguelike
         {
             if (collision.TryGetComponent<IDamagable>(out IDamagable iDamagable))
             {
-                iDamagable.TakeDamage(_damageValue);
+                if (ProjectUtils.CanTagDamage(collision.tag, _damageTags))
+                {
+                    iDamagable.TakeDamage(_damageValue);
+                }
             }
         }
 

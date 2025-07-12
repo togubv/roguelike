@@ -52,6 +52,11 @@ namespace Roguelike
 
         #endregion Event Handlers
 
+        private void UpdatePlayerHealthHandler(int value, int maxValue)
+        {
+            _view.UpdatePlayerHealth(value, maxValue);
+        }
+
         private void UpdatePlayerExperienceHandler(int value, int maxValue)
         {
             _view.UpdatePlayerExperienceValue(value, maxValue);
@@ -78,6 +83,7 @@ namespace Roguelike
 
         private void AddHandlers()
         {
+            _levelManager.EventUpdatePlayerHealth += UpdatePlayerHealthHandler;
             _levelManager.EventUpdatePlayerExperience += UpdatePlayerExperienceHandler;
             _levelManager.EventUpdatePlayerLevel += UpdatePlayerLevelHandler;
             _bonusManager.EventUpdateSkills += UpdateSkillsHandler;
@@ -85,6 +91,7 @@ namespace Roguelike
 
         private void RemoveHandlers()
         {
+            _levelManager.EventUpdatePlayerHealth -= UpdatePlayerHealthHandler;
             _levelManager.EventUpdatePlayerExperience -= UpdatePlayerExperienceHandler;
             _levelManager.EventUpdatePlayerLevel -= UpdatePlayerLevelHandler;
             _bonusManager.EventUpdateSkills -= UpdateSkillsHandler;

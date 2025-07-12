@@ -8,11 +8,17 @@ namespace Roguelike
 {
     public class InGameView : IView
     {
-        public Image experienceFillImage;
-        public TMP_Text experienceFillText;
-        public TMP_Text levelText;
         public SkillContainer skillContainerPrefab;
         public Transform skillsParent;
+
+        [Header("Health")]
+        public Image healthFillImage;
+        public TMP_Text healthText;
+
+        [Header("Experience")]
+        public Image experienceFillImage;
+        public TMP_Text experienceFillText;
+        public TMP_Text levelText;        
 
         [Header("Damage Number")]
         public TMP_Text damageNumberContainerPrefab;
@@ -29,6 +35,13 @@ namespace Roguelike
         {
             _cam = Camera.main;
             _damageNumberLifetime = Settings.Get<GameSettings>().damageNumberLifetime;
+        }
+
+        public void UpdatePlayerHealth(int value, int maxValue)
+        {
+            float percent = (float)value / maxValue;
+            healthFillImage.fillAmount = percent;
+            healthText.text = $"{value}/{maxValue}";
         }
 
         public void UpdatePlayerExperienceValue(int value, int maxValue)

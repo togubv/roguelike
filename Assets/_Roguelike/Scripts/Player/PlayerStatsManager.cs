@@ -7,8 +7,16 @@ namespace Roguelike
     public class PlayerStatsManager : MonoBehaviour
     {
         public event Action<StatType, float, float> EventUpdatePlayerStat;
+        public event Action<HealthPlayer> EventInitializeCharacter;
+
+        public int baseHealthValue = 1;
 
         public List<StatData> _stats = new List<StatData>();
+
+        public void InitCharacter(HealthPlayer character)
+        {
+            EventInitializeCharacter?.Invoke(character);
+        }
 
         public void AddBonusStats(BonusData bonusData, int level)
         {
@@ -84,6 +92,7 @@ namespace Roguelike
 
             return value;
         }
+        
 
         private void UpdatePlayerStat(StatType type)
         {

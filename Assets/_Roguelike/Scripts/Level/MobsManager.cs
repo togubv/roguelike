@@ -5,13 +5,13 @@ namespace Roguelike
 {
     public class MobsManager : MonoBehaviour
     {
-        public Transform playerTrans;
         public float pushStrength = 1f;
         public float movementPeriod = 0.5f;
         public float separationRadius = 0.5f;
 
         public List<LevelMobData> mobs = new List<LevelMobData>();
 
+        private Transform _playerTrans;
         private float _respawnRadius;
         private float _respawnMinRadius;
         private float _respawnMaxRadius;
@@ -21,10 +21,15 @@ namespace Roguelike
             float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
             float distance = Random.Range(_respawnMinRadius, _respawnMaxRadius);
 
-            float x = playerTrans.position.x + Mathf.Cos(angle) * distance;
-            float y = playerTrans.position.y + Mathf.Sin(angle) * distance;
+            float x = _playerTrans.position.x + Mathf.Cos(angle) * distance;
+            float y = _playerTrans.position.y + Mathf.Sin(angle) * distance;
 
             return new Vector2(x, y);
+        }
+
+        public void SetPlayerTransform(Transform playerTrans)
+        {
+            _playerTrans = playerTrans;
         }
 
         private void Awake()
@@ -45,10 +50,10 @@ namespace Roguelike
         {
             for (int i = 0; i < mobs.Count; i++)
             {
-                Vector2 direction = (playerTrans.position - mobs[i].mobTrans.position).normalized;
+                Vector2 direction = (_playerTrans.position - mobs[i].mobTrans.position).normalized;
                 Vector2 newPos = (Vector2)mobs[i].mobTrans.position + direction * mobs[i].movespeed * Time.deltaTime;
 
-                if (Vector2.Distance(playerTrans.position, newPos) > _respawnRadius)
+                if (Vector2.Distance(_playerTrans.position, newPos) > _respawnRadius)
                 {
                     newPos = GetRandomPointOutsideRadius();
                 }

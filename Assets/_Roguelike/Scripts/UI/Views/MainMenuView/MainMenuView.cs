@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Roguelike
@@ -9,14 +11,39 @@ namespace Roguelike
         public event Action<int> EventLevelClicked;
 
         public Button startButton;
-        public LevelContainer[] levelContainers;
+        public LevelContainer levelContainerPrefab;
+        public Transform levelContainersParent;
+
+        private List<LevelContainer> _levelContainers = new List<LevelContainer>();
+
+        public void InitLevels(LevelData[] levels)
+        {
+            for (int i =  0; i < levels.Length; i++)
+            {
+                var spawnedLevelContainer = Instantiate(levelContainerPrefab, levelContainersParent);
+                spawnedLevelContainer.titleText.text = levels[i].levelTitle;
+                int index = i;
+                spawnedLevelContainer.button.onClick.AddListener(() => LevelContainerButtonHandler(index));
+            }
+        }
+
+        public void ClearLevels()
+        {
+            for (int i = 0; i < _levelContainers.Count; i++)
+            {
+                _levelContainers[i].button.onClick.RemoveAllListeners();
+                Destroy(_levelContainers[i].gameObject);
+            }
+
+            _levelContainers.Clear();
+        }
+
+        #region Event Handlers
 
         private void StartHandler()
         {
             EventStartGame?.Invoke();
         }
-
-        #region Event Handlers
 
         private void LevelContainerButtonHandler(int index)
         {
@@ -28,22 +55,11 @@ namespace Roguelike
         protected override void AddHandlers()
         {
             startButton.onClick.AddListener(StartHandler);
-
-            for (int i = 0; i < levelContainers.Length; i++)
-            {
-                int index = i;
-                levelContainers[i].button.onClick.AddListener(() => LevelContainerButtonHandler(index));
-            }
         }
 
         protected override void RemoveHandlers()
         {
             startButton.onClick.RemoveListener(StartHandler);
-
-            for (int i = 0; i < levelContainers.Length; i++)
-            {
-                levelContainers[i].button.onClick.RemoveAllListeners();
-            }
         }
     }
 }

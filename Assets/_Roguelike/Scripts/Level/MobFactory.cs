@@ -194,11 +194,6 @@ namespace Roguelike
 
             return null;
         }
-        
-        private void SpawnMobDebug()
-        {
-            SpawnMob(debugMobId, debugMobsAmount);
-        }
 
         private void SpawnCollectable(string collectableId, Vector3 spawnPosition)
         {

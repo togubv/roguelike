@@ -9,14 +9,13 @@ namespace Roguelike
     {
         public event Action EventUpdateSkills;
 
-        public Transform skillsParent;
-
         public List<PlayerBonusData> activeBonuses => _activeBonuses;
 
         [Inject] private LevelManager _levelManager;
         [Inject] private PlayerStatsManager _playerStatsManager;
         private BonusController _bonusController;
         private BonusesPool _bonusesPool;
+        private Transform _skillsParent;
 
         private List<string> _availableBonuses = new List<string>();
         private List<BonusData> _bonusesDraft = new List<BonusData>();
@@ -38,8 +37,8 @@ namespace Roguelike
                 }
                 else
                 {
-                    var spawnedSkill = Instantiate(_bonusesDraft[bonusIndex].skillPrefab, skillsParent);
-                    spawnedSkill.transform.rotation = skillsParent.rotation;
+                    var spawnedSkill = Instantiate(_bonusesDraft[bonusIndex].skillPrefab, _skillsParent);
+                    spawnedSkill.transform.rotation = _skillsParent.rotation;
                     var playerBonusData = new PlayerBonusData(_bonusesDraft[bonusIndex].id, bonusLevel, spawnedSkill);
                     SetSkillStats(playerBonusData.skill);
                     _activeBonuses.Add(playerBonusData);
@@ -88,11 +87,13 @@ namespace Roguelike
         private void OnEnable()
         {
             _levelManager.EventUpdatePlayerLevel += UpdatePlayerLevelHandler;
+            _playerStatsManager.EventInitializeCharacter += InitializeCharacterHandler;
         }
 
         private void OnDisable()
         {
             _levelManager.EventUpdatePlayerLevel -= UpdatePlayerLevelHandler;
+            _playerStatsManager.EventInitializeCharacter -= InitializeCharacterHandler;
         }
 
         private void UpdateBonusesStats()
@@ -126,6 +127,11 @@ namespace Roguelike
             }
 
             ShowBonusesChoice();
+        }
+
+        private void InitializeCharacterHandler(HealthPlayer character)
+        {
+            _skillsParent = character.skillsParent;
         }
 
         private void InitAvailableBonuses()

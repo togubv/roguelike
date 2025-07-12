@@ -5,11 +5,10 @@ namespace Roguelike
 {
     public class PlayerController : MonoBehaviour
     {
-        public Transform characterTrans;
-
         [Inject] private InputReader _inputReader;
         [Inject] private PlayerStatsManager _playerStatsManager;
 
+        private Transform _characterTrans;
         private float _baseMovespeed;
         private float _additionalMovespeed;
         private float _movespeed { get { return _baseMovespeed + _additionalMovespeed; } }
@@ -26,11 +25,13 @@ namespace Roguelike
             _additionalMovespeed = _playerStatsManager.GetAdditionalStatFixedValue(StatType.Movespeed);
 
             _playerStatsManager.EventUpdatePlayerStat += UpdatePlayerStatHandler;
+            _playerStatsManager.EventInitializeCharacter += InitializeCharacterHandler;
         }
 
         private void OnDisable()
         {
             _playerStatsManager.EventUpdatePlayerStat -= UpdatePlayerStatHandler;
+            _playerStatsManager.EventInitializeCharacter -= InitializeCharacterHandler;
         }
 
         private void Update()
@@ -44,14 +45,19 @@ namespace Roguelike
             _additionalMovespeed += (_baseMovespeed * percentValue);
         }
 
+        private void InitializeCharacterHandler(HealthPlayer character)
+        {
+            _characterTrans = character.transform;
+        }
+
         private void Move()
         {
             if (_inputReader.axisInput != Vector2.zero)
             {
                 float angle = Mathf.Atan2(_inputReader.axisInput.y, _inputReader.axisInput.x) * Mathf.Rad2Deg - 90;
-                characterTrans.rotation = Quaternion.Euler(0, 0, angle);
+                _characterTrans.rotation = Quaternion.Euler(0, 0, angle);
 
-                characterTrans.Translate(Vector2.up * _movespeed * Time.deltaTime);                           
+                _characterTrans.Translate(Vector2.up * _movespeed * Time.deltaTime);                           
             }
         }
     }

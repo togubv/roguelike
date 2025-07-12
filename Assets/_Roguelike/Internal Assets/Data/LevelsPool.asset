@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: LevelsPool
   m_EditorClassIdentifier: 
   levels:
-  - waves:
+  - levelTitle: Milkyway
+    waves:
     - delay: 0
       mobId: Mob1
       amount: 10

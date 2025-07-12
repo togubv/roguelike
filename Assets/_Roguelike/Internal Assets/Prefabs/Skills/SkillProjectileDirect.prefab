@@ -69,3 +69,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileId: ProjectileDirect1
   spawnPoint: {fileID: 7480850246123546001}
+  damageTags:
+  - Mob

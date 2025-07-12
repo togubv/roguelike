@@ -36,6 +36,8 @@ namespace Roguelike
             _maxHealth = baseHealthValue;
             _currentHealth = _maxHealth;
             _isAlive = true;
+
+            EventUpdateHealthValue?.Invoke(_currentHealth, _maxHealth);
         }
 
         protected virtual void Death()

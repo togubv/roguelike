@@ -1,4 +1,5 @@
 using Anthill.Inject;
+using Unity.Cinemachine;
 using UnityEngine;
 
 namespace Roguelike
@@ -7,6 +8,7 @@ namespace Roguelike
     {
         public Canvas canvas;
         public Settings settings;
+        public CinemachineCamera cinemachineCamera;
 
         public IInjectContainer injectContainer;
 
